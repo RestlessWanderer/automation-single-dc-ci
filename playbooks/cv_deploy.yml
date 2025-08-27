@@ -1,0 +1,12 @@
+- name: Configuration deployment
+  hosts: "{{ target_fabric }}"
+  connection: local
+  gather_facts: false
+  
+  tasks:
+    - name: Deploy configurations and tags to CloudVision
+      ansible.builtin.import_role:
+        name: arista.avd.cv_deploy
+      vars:
+        cv_server: www.arista.io
+        cv_token: <insert service_account token here - use Ansible Vault>
