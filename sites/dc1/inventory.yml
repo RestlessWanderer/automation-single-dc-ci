@@ -1,0 +1,22 @@
+dc1:
+  children:
+    dc1_fabric:
+      children:
+        dc1_spines:
+          hosts:
+            dc1-spine1:
+            dc1-spine2:
+        dc1_leafs:
+          hosts:
+            dc1-leaf1a:
+            dc1-leaf1b:
+            dc1-leaf2a:
+            dc1-leaf2b:
+    dc1_network_services:
+      children:
+        dc1_spines:
+        dc1_leafs:
+    dc1_endpoints:
+      children:
+        dc1_spines:
+        dc1_leafs:
