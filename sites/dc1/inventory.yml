@@ -4,19 +4,19 @@ dc1:
       children:
         dc1_spines:
           hosts:
-            dc1-spine1:
+            SPINE1:
               ansible_host: 10.18.175.166
-            dc1-spine2:
+            SPINE2:
               ansible_host: 10.18.161.255
         dc1_leafs:
           hosts:
-            dc1-leaf1a:
+            LEAF1A:
               ansible_host: 10.18.175.168
-            dc1-leaf1b:
+            LEAF1B:
               ansible_host: 10.18.175.163
-            dc1-leaf2a:
+            LEAF2A:
               ansible_host: 10.18.175.192
-            dc1-leaf2b:
+            LEAF2B:
               ansible_host: 10.18.138.67
     dc1_network_services:
       children:
