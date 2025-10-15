@@ -34,4 +34,4 @@ jobs:
         run: |
           git add .
           git commit -m "Build Configs with AVD"
-          git push origin ${{ GITHUB_REF }}
+          git push origin ${{ github.ref }}
