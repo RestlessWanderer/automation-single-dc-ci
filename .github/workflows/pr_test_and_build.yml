@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Building Configs
     container:
-      image: "ghcr.io/aristanetworks/avd/universal:python3.13-avd-v5.5.1"
+      image: "ghcr.io/aristanetworks/avd/universal:python3.12-avd-v5.5.1"
       options: '--user=root' #required, only user allowed by github actions
       env:
-        PYTHONPATH: "/home/avd/.local/lib/python3.13/site-packages"
+        PYTHONPATH: "/home/avd/.local/lib/python3.12/site-packages"
     steps:
       - uses: actions/checkout@v4
         with:
