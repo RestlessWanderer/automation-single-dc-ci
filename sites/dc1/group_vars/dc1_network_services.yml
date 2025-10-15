@@ -5,7 +5,7 @@ tenants:
       - name: default
         svis:
           - id: 110
-            name: 'DC1_IDF1_DATA'
+            name: 'DC1_DATA'
             enabled: true
             ip_virtual_router_addresses:
               - 10.1.10.1
