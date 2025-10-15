@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
+          ref: ${{ github.ref }}
 
       - name: Setup Git config
         run: |
@@ -34,3 +35,4 @@ jobs:
         run: |
           git add .
           git commit -m "Build Configs with AVD"
+          git push
