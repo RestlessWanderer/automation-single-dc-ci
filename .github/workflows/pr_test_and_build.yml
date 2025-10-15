@@ -34,4 +34,3 @@ jobs:
         run: |
           git add .
           git commit -m "Build Configs with AVD"
-          git push
