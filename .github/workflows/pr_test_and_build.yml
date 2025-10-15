@@ -19,12 +19,12 @@ jobs:
         with:
           submodules: true
 
-      - name: Extract branch name
-        id: extract_branch
-        run: echo "branch_name=$(echo '${{ github.ref }}' | sed 's/refs\/heads\///')" >> "$GITHUB_OUTPUT"
+      # - name: Extract branch name
+      #   id: extract_branch
+      #   run: echo "branch_name=$(echo '${{ github.ref }}' | sed 's/refs\/heads\///')" >> "$GITHUB_OUTPUT"
 
-      - name: Use branch name
-        run: echo "The branch that triggered this workflow is ${{ steps.extract_branch.outputs.branch_name }}"
+      # - name: Use branch name
+      #   run: echo "The branch that triggered this workflow is ${{ steps.extract_branch.outputs.branch_name }}"
 
       - name: Setup Git config
         run: |
@@ -41,4 +41,4 @@ jobs:
         run: |
           git add .
           git commit -m "Build Configs with AVD"
-          git push origin ${{ steps.extract_branch.outputs.branch_name }}
+          git push origin ${{ github.head_ref }}
