@@ -25,7 +25,7 @@ tenants:
               - node: SPINE2
                 ip_address: 10.1.20.3/24
           - id: 210
-            name: 'DC1_IDF2_DATA'
+            name: 'DC1_IDF2_DAT'
             enabled: true
             ip_virtual_router_addresses:
               - 10.2.10.1
