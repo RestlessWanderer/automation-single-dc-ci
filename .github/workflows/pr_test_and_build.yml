@@ -8,7 +8,7 @@ on:
 jobs:
   build_configs:
     runs-on: ubuntu-latest
-    name: Test Building Configs
+    name: Test Building Configs and Build If Successful
     container:
       image: "ghcr.io/aristanetworks/avd/universal:python3.12-avd-v5.5.1"
       options: '--user=root' #required, only user allowed by github actions
