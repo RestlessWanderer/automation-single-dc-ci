@@ -1,0 +1,8 @@
+---
+
+name: Deploy Configs to Production
+
+on:
+  release:
+    types:
+      - published
