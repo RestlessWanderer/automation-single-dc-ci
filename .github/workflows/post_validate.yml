@@ -1,8 +1,0 @@
----
-
-name: Post Deployment Validation Testing
-
-on:
-  workflow_dispatch:
-  repository_dispatch:
-    types: [post-validate]

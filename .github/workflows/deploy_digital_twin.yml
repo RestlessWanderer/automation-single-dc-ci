@@ -6,10 +6,36 @@ on:
     types:
       - closed
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  deploy_configs:
+  pre_change_validation:
     if: github.event.pull_request.merged == true
+    name: Pre-Change Validation of Digital Twin Environment
+    runs-on: ubuntu-latest
+    container:
+      image: "ghcr.io/aristanetworks/avd/universal:python3.12-avd-v5.5.1"
+      options: '--user=root' #required, only user allowed by github actions
+      env:
+        PYTHONPATH: "/home/avd/.local/lib/python3.12/site-packages"
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Run ANTA Against Digital Twin CV Instance - Pre Deploy
+        run: |
+          make validate-dc1_dt
+
+      - name: Save output
+        run: |
+            cat sites/dc1/anta/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
+
+  deploy_configs:
     name: Deploy Configs to Digital Twin
+    needs: [pre_change_validation]
     runs-on: ubuntu-latest
     container:
       image: "ghcr.io/aristanetworks/avd/universal:python3.12-avd-v5.5.1"
@@ -24,16 +50,23 @@ jobs:
         run: |
           make deploy-dc1_dt
 
-  post_validate:
-    name: Repository Dispatch
-    needs: [ deploy_configs ]
+  post_change_validation:
+    name: Post-Change Validation of Digital Twin Environment
+    needs: [deploy_configs]
     runs-on: ubuntu-latest
+    container:
+      image: "ghcr.io/aristanetworks/avd/universal:python3.12-avd-v5.5.1"
+      options: '--user=root' #required, only user allowed by github actions
+      env:
+        PYTHONPATH: "/home/avd/.local/lib/python3.12/site-packages"
     steps:
-      - uses: actions/github-script@v7
-        with:
-          script: |
-              github.rest.repos.createDispatchEvent({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  event_type: "post-validate"
-              })
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Run ANTA Against Digital Twin CV Instance - Post Deploy
+        run: |
+          make validate-dc1_dt
+
+      - name: Save output
+        run: |
+            cat sites/dc1/anta/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
