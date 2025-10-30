@@ -12,8 +12,8 @@ validate-dc1: ## Validate Configs
 
 .PHONY: deploy-dc1_dt
 deploy-dc1_dt: ## Deploy Configs - DT
-	ansible-playbook playbooks/cv_deploy.yml -i sites/dc1/act_inventory.yml -e "target_fabric=dc1_fabric"
+	ansible-playbook playbooks/deploy_dt.yml -i sites/dc1/inventory_act.yml -e "target_fabric=dc1_fabric"
 
 .PHONY: validate-dc1_dt
 validate-dc1_dt: ## Validate Configs - DT
-	ansible-playbook playbooks/validate.yml -i sites/dc1/act_inventory.yml -e "target_fabric=dc1_fabric"
+	ansible-playbook playbooks/validate_dt.yml -i sites/dc1/inventory_act.yml -e "target_fabric=dc1_fabric"

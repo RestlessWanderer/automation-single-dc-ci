@@ -31,7 +31,7 @@ jobs:
 
       - name: Save output
         run: |
-            cat sites/dc1/anta/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
+            cat sites/dc1/anta_dt/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
 
   deploy_configs:
     name: Deploy Configs to Digital Twin
@@ -69,4 +69,4 @@ jobs:
 
       - name: Save output
         run: |
-            cat sites/dc1/anta/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
+            cat sites/dc1/anta_dt/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
