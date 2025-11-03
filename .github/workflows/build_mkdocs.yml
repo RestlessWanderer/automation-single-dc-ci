@@ -23,8 +23,8 @@ jobs:
       - name: move AVD docs ✂
         run: |
           cp -r sites/dc1/documentation/* docs/
-          cp anta/reports/anta_report.md docs/
-          cp anta/reports/anta_report.md docs/index.md
+          cp sites/dc1/anta/reports/anta_report.md docs/
+          cp sites/dc1/anta/reports/anta_report.md docs/index.md
 
       - name: Setup Python3 🐍
         uses: actions/setup-python@v5
