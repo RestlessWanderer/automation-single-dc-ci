@@ -70,3 +70,17 @@ jobs:
       - name: Save output
         run: |
             cat sites/dc1/anta/reports/anta_report.md >> $GITHUB_STEP_SUMMARY
+
+  build_mkdocs_trigger:
+    name: Repository Dispatch
+    needs: [ post_change_validation ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+              github.rest.repos.createDispatchEvent({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  event_type: "mkdocs"
+              })

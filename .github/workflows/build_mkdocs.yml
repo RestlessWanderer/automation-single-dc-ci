@@ -1,0 +1,37 @@
+---
+
+name: Build MKDocs Site
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [mkdocs]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build_mkdocs:
+    name: Build MKDocs Site
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code ✅
+        uses: actions/checkout@v4
+
+      - name: move AVD docs ✂
+        run: |
+          cp -r sites/dc1/documentation/* docs/
+          cp anta/reports/anta_report.md docs/
+          cp anta/reports/anta_report.md docs/index.md
+
+      - name: Setup Python3 🐍
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build MkDocs Site
+        run: |
+          pip install mkdocs-material
+          mkdocs gh-deploy --remote-branch documentation
