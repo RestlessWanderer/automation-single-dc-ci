@@ -119,7 +119,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,130
 - name: Port-Channel3
   description: L2_DC1-LEAF2_Port-Channel49
   shutdown: false
@@ -128,7 +128,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,130
 router_ospf:
   process_ids:
   - id: 100
@@ -177,6 +177,13 @@ vlan_interfaces:
   ip_virtual_router_addresses:
   - 10.1.20.1
   tenant: DC1
+- name: Vlan130
+  description: DC1_IDF1_SEARAY
+  shutdown: false
+  ip_address: 10.1.30.2/24
+  ip_virtual_router_addresses:
+  - 10.1.30.1
+  tenant: DC1
 vlan_internal_order:
   allocation: ascending
   range:
@@ -198,6 +205,9 @@ vlans:
   tenant: DC1
 - id: 120
   name: DC1_IDF1_VOICE
+  tenant: DC1
+- id: 130
+  name: DC1_IDF1_SEARAY
   tenant: DC1
 vrfs:
 - name: default
