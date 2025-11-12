@@ -1,0 +1,131 @@
+aaa_root:
+  disabled: true
+config_end: true
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet51
+  description: MLAG_LEAF1A_Ethernet51
+  shutdown: false
+  channel_group:
+    id: 51
+    mode: active
+  peer: LEAF1A
+  peer_interface: Ethernet51
+  peer_type: mlag_peer
+- name: Ethernet52
+  description: MLAG_LEAF1A_Ethernet52
+  shutdown: false
+  channel_group:
+    id: 51
+    mode: active
+  peer: LEAF1A
+  peer_interface: Ethernet52
+  peer_type: mlag_peer
+- name: Ethernet49
+  description: L2_SPINE1_Ethernet2
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+  peer: SPINE1
+  peer_interface: Ethernet2
+  peer_type: l3spine
+- name: Ethernet50
+  description: L2_SPINE2_Ethernet2
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+  peer: SPINE2
+  peer_interface: Ethernet2
+  peer_type: l3spine
+hostname: LEAF1B
+ip_igmp_snooping:
+  globally_enabled: true
+is_deployed: true
+local_users:
+- name: cvpadmin
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$WYXZ5qKdk8EUGFoI$jy2rDatFjRGDZ3snPO.tIQYzqEbT1TPCfSZQyvIiQ.H.uMYru9Ra3YOWmJCBBGKQuWPWuiGqfh/QOOQlRxRR41
+- name: service
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$4Ey4qpC8elLHIA2a$GRrcdzVU1anXhn5FrAAEtsPg0zdnEHCza4tHVqTCGFV4XFme7Tl8SRGy.Xe0NA7A8XktXr1ZtNzAoBwzm18Nb0
+  shell: /bin/bash
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: default
+management_interfaces:
+- name: Management1
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.14/24
+  type: oob
+metadata:
+  platform: vEOS
+  fabric_name: dc1_fabric
+mlag_configuration:
+  domain_id: DC1-LEAF1
+  local_interface: Vlan4094
+  peer_address: 10.253.1.0
+  peer_link: Port-Channel51
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+port_channel_interfaces:
+- name: Port-Channel51
+  description: MLAG_LEAF1A_Port-Channel51
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel49
+  description: L2_DC1-SPINES_Port-Channel1
+  shutdown: false
+  mlag: 49
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 110,120
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 16384
+  no_spanning_tree_vlan: '4094'
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.253.1.1/31
+  mtu: 1500
+  no_autostate: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  tenant: system
+- id: 110
+  name: DC1_IDF1_DATA
+  tenant: DC1
+- id: 120
+  name: DC1_IDF1_VOICE
+  tenant: DC1
+vrfs:
+- name: default
+  ip_routing: false

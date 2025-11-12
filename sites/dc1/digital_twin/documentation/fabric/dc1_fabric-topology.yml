@@ -1,0 +1,71 @@
+nodes:
+- LEAF1A:
+    node_type: veos
+    ip_addr: 192.168.0.13/24
+    version: 4.33.1.1F
+- LEAF1B:
+    node_type: veos
+    ip_addr: 192.168.0.14/24
+    version: 4.33.1.1F
+- LEAF2A:
+    node_type: veos
+    ip_addr: 192.168.0.15/24
+    version: 4.33.1.1F
+- LEAF2B:
+    node_type: veos
+    ip_addr: 192.168.0.16/24
+    version: 4.33.1.1F
+- SPINE1:
+    node_type: veos
+    ip_addr: 192.168.0.11/24
+    version: 4.33.1.1F
+- SPINE2:
+    node_type: veos
+    ip_addr: 192.168.0.12/24
+    version: 4.33.1.1F
+veos:
+  username: admin
+  password: admin
+links:
+- connection:
+  - LEAF1A:Ethernet49
+  - SPINE1:Ethernet1
+- connection:
+  - LEAF1A:Ethernet50
+  - SPINE2:Ethernet1
+- connection:
+  - LEAF1A:Ethernet51
+  - LEAF1B:Ethernet51
+- connection:
+  - LEAF1A:Ethernet52
+  - LEAF1B:Ethernet52
+- connection:
+  - LEAF1B:Ethernet49
+  - SPINE1:Ethernet2
+- connection:
+  - LEAF1B:Ethernet50
+  - SPINE2:Ethernet2
+- connection:
+  - LEAF2A:Ethernet49
+  - SPINE1:Ethernet3
+- connection:
+  - LEAF2A:Ethernet50
+  - SPINE2:Ethernet3
+- connection:
+  - LEAF2A:Ethernet51
+  - LEAF2B:Ethernet51
+- connection:
+  - LEAF2A:Ethernet52
+  - LEAF2B:Ethernet52
+- connection:
+  - LEAF2B:Ethernet49
+  - SPINE1:Ethernet4
+- connection:
+  - LEAF2B:Ethernet50
+  - SPINE2:Ethernet4
+- connection:
+  - SPINE1:Ethernet97/1
+  - SPINE2:Ethernet97/1
+- connection:
+  - SPINE1:Ethernet98/1
+  - SPINE2:Ethernet98/1

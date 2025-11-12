@@ -1,0 +1,211 @@
+aaa_root:
+  disabled: true
+config_end: true
+enable_password:
+  disabled: true
+ethernet_interfaces:
+- name: Ethernet97/1
+  description: MLAG_SPINE1_Ethernet97/1
+  shutdown: false
+  channel_group:
+    id: 971
+    mode: active
+  peer: SPINE1
+  peer_interface: Ethernet97/1
+  peer_type: mlag_peer
+- name: Ethernet98/1
+  description: MLAG_SPINE1_Ethernet98/1
+  shutdown: false
+  channel_group:
+    id: 971
+    mode: active
+  peer: SPINE1
+  peer_interface: Ethernet98/1
+  peer_type: mlag_peer
+- name: Ethernet1
+  description: L2_LEAF1A_Ethernet50
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: LEAF1A
+  peer_interface: Ethernet50
+  peer_type: l2leaf
+- name: Ethernet2
+  description: L2_LEAF1B_Ethernet50
+  shutdown: false
+  channel_group:
+    id: 1
+    mode: active
+  peer: LEAF1B
+  peer_interface: Ethernet50
+  peer_type: l2leaf
+- name: Ethernet3
+  description: L2_LEAF2A_Ethernet50
+  shutdown: false
+  channel_group:
+    id: 3
+    mode: active
+  peer: LEAF2A
+  peer_interface: Ethernet50
+  peer_type: l2leaf
+- name: Ethernet4
+  description: L2_LEAF2B_Ethernet50
+  shutdown: false
+  channel_group:
+    id: 3
+    mode: active
+  peer: LEAF2B
+  peer_interface: Ethernet50
+  peer_type: l2leaf
+hostname: SPINE2
+ip_igmp_snooping:
+  globally_enabled: true
+ip_routing: true
+ip_virtual_router_mac_address: 00:1c:73:00:dc:01
+is_deployed: true
+local_users:
+- name: cvpadmin
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$WYXZ5qKdk8EUGFoI$jy2rDatFjRGDZ3snPO.tIQYzqEbT1TPCfSZQyvIiQ.H.uMYru9Ra3YOWmJCBBGKQuWPWuiGqfh/QOOQlRxRR41
+- name: service
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$4Ey4qpC8elLHIA2a$GRrcdzVU1anXhn5FrAAEtsPg0zdnEHCza4tHVqTCGFV4XFme7Tl8SRGy.Xe0NA7A8XktXr1ZtNzAoBwzm18Nb0
+  shell: /bin/bash
+loopback_interfaces:
+- name: Loopback0
+  description: ROUTER_ID
+  shutdown: false
+  ip_address: 10.252.1.2/32
+  ospf_area: 0.0.0.0
+management_api_http:
+  enable_https: true
+  enable_vrfs:
+  - name: default
+management_interfaces:
+- name: Management1
+  description: OOB_MANAGEMENT
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.12/24
+  type: oob
+metadata:
+  platform: vEOS
+  fabric_name: dc1_fabric
+  digital_twin:
+    environment: act
+    node_type: veos
+    ip_addr: 192.168.0.12/24
+    version: 4.33.1.1F
+    username: admin
+    password: admin
+mlag_configuration:
+  domain_id: DC1-SPINES
+  local_interface: Vlan4094
+  peer_address: 10.253.1.0
+  peer_link: Port-Channel971
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+port_channel_interfaces:
+- name: Port-Channel971
+  description: MLAG_SPINE1_Port-Channel971
+  shutdown: false
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      groups:
+      - MLAG
+- name: Port-Channel1
+  description: L2_DC1-LEAF1_Port-Channel49
+  shutdown: false
+  mlag: 1
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 110,120
+- name: Port-Channel3
+  description: L2_DC1-LEAF2_Port-Channel49
+  shutdown: false
+  mlag: 3
+  switchport:
+    enabled: true
+    mode: trunk
+    trunk:
+      allowed_vlan: 110,120
+router_ospf:
+  process_ids:
+  - id: 100
+    passive_interface_default: true
+    router_id: 10.252.1.2
+    bfd_enable: false
+    no_passive_interfaces:
+    - Vlan4093
+    max_lsa: 12000
+    redistribute:
+      connected:
+        enabled: true
+service_routing_protocols_model: multi-agent
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 4096
+  no_spanning_tree_vlan: 4093-4094
+transceiver_qsfp_default_mode_4x10: true
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_L3
+  shutdown: false
+  ip_address: 10.253.1.3/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+  mtu: 1500
+- name: Vlan4094
+  description: MLAG
+  shutdown: false
+  ip_address: 10.253.1.1/31
+  mtu: 1500
+  no_autostate: true
+- name: Vlan110
+  description: DC1_IDF1_DATA
+  shutdown: false
+  ip_address: 10.1.10.3/24
+  ip_virtual_router_addresses:
+  - 10.1.10.1
+  tenant: DC1
+- name: Vlan120
+  description: DC1_IDF1_VOICE
+  shutdown: false
+  ip_address: 10.1.20.3/24
+  ip_virtual_router_addresses:
+  - 10.1.20.1
+  tenant: DC1
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+vlans:
+- id: 4093
+  name: MLAG_L3
+  trunk_groups:
+  - MLAG
+  tenant: system
+- id: 4094
+  name: MLAG
+  trunk_groups:
+  - MLAG
+  tenant: system
+- id: 110
+  name: DC1_IDF1_DATA
+  tenant: DC1
+- id: 120
+  name: DC1_IDF1_VOICE
+  tenant: DC1
+vrfs:
+- name: default
+  ip_routing: false
