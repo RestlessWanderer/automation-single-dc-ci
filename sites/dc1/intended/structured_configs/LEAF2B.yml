@@ -93,7 +93,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,130
 service_routing_protocols_model: multi-agent
 spanning_tree:
   mode: mstp
@@ -125,6 +125,9 @@ vlans:
   tenant: DC1
 - id: 120
   name: DC1_IDF1_VOICE
+  tenant: DC1
+- id: 130
+  name: DC1_IDF1_130
   tenant: DC1
 vrfs:
 - name: default
