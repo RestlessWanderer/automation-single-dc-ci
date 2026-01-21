@@ -9,6 +9,6 @@
         name: arista.avd.anta_runner
       vars:
         save_catalog: true
-        anta_dir_name: "anta_dt"
+        anta_dir_name: "anta_digital_twin"
         anta_dir: "{{ root_dir }}/{{ anta_dir_name }}"
         avd_catalogs_allow_bgp_vrfs: true
