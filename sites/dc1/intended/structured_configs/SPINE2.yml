@@ -119,7 +119,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,130,140-141
 - name: Port-Channel3
   description: L2_DC1-LEAF2_Port-Channel49
   shutdown: false
@@ -128,7 +128,7 @@ port_channel_interfaces:
     enabled: true
     mode: trunk
     trunk:
-      allowed_vlan: 110,120
+      allowed_vlan: 110,120,130,140-141
 router_ospf:
   process_ids:
   - id: 100
@@ -177,6 +177,27 @@ vlan_interfaces:
   ip_virtual_router_addresses:
   - 10.1.20.1
   tenant: DC1
+- name: Vlan130
+  description: DC1_VLAN130
+  shutdown: false
+  ip_address: 10.1.30.3/24
+  ip_virtual_router_addresses:
+  - 10.1.30.1
+  tenant: DC1
+- name: Vlan140
+  description: DC1_VLAN140
+  shutdown: false
+  ip_address: 10.1.40.3/24
+  ip_virtual_router_addresses:
+  - 10.1.40.1
+  tenant: DC1
+- name: Vlan141
+  description: DC1_VLAN141
+  shutdown: false
+  ip_address: 10.1.41.3/24
+  ip_virtual_router_addresses:
+  - 10.1.41.1
+  tenant: DC1
 vlan_internal_order:
   allocation: ascending
   range:
@@ -198,6 +219,15 @@ vlans:
   tenant: DC1
 - id: 120
   name: DC1_IDF1_VOICE
+  tenant: DC1
+- id: 130
+  name: DC1_VLAN130
+  tenant: DC1
+- id: 140
+  name: DC1_VLAN140
+  tenant: DC1
+- id: 141
+  name: DC1_VLAN141
   tenant: DC1
 vrfs:
 - name: default
