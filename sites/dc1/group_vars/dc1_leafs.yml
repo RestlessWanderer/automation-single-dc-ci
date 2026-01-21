@@ -3,7 +3,7 @@ type: l2leaf
 
 l2leaf:
   defaults:
-    platform: vEOS
+    platform: "7050SDX4"
     mlag_peer_ipv4_pool: 10.253.1.0/31
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384

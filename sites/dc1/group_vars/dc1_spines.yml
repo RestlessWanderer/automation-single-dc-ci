@@ -3,7 +3,7 @@ type: l3spine
 
 l3spine:
   defaults:
-    platform: vEOS
+    platform: "7280R3"
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     loopback_ipv4_pool: 10.252.1.0/24
