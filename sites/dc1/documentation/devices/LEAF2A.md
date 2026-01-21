@@ -219,8 +219,8 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 110 | DC1_IDF1_DATA | - |
-| 120 | DC1_IDF1_VOICE | - |
+| 110 | DC1_DATA_110 | - |
+| 120 | DC1_DATA_120 | - |
 | 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
@@ -228,10 +228,10 @@ vlan internal order ascending range 1006 1199
 ```eos
 !
 vlan 110
-   name DC1_IDF1_DATA
+   name DC1_DATA_110
 !
 vlan 120
-   name DC1_IDF1_VOICE
+   name DC1_DATA_120
 !
 vlan 4094
    name MLAG

@@ -92,7 +92,7 @@ management_interfaces:
   ip_address: 192.168.0.11/24
   type: oob
 metadata:
-  platform: vEOS
+  platform: vEOS-lab
   fabric_name: dc1_fabric
   digital_twin:
     environment: act
@@ -171,14 +171,14 @@ vlan_interfaces:
   mtu: 1500
   no_autostate: true
 - name: Vlan110
-  description: DC1_IDF1_DATA
+  description: DC1_DATA_110
   shutdown: false
   ip_address: 10.1.10.2/24
   ip_virtual_router_addresses:
   - 10.1.10.1
   tenant: DC1
 - name: Vlan120
-  description: DC1_IDF1_VOICE
+  description: DC1_DATA_120
   shutdown: false
   ip_address: 10.1.20.2/24
   ip_virtual_router_addresses:
@@ -201,10 +201,10 @@ vlans:
   - MLAG
   tenant: system
 - id: 110
-  name: DC1_IDF1_DATA
+  name: DC1_DATA_110
   tenant: DC1
 - id: 120
-  name: DC1_IDF1_VOICE
+  name: DC1_DATA_120
   tenant: DC1
 vrfs:
 - name: default

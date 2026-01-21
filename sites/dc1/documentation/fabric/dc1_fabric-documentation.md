@@ -17,12 +17,12 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision | Serial Number |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- | ------------- |
-| dc1_fabric | l2leaf | LEAF1A | 192.168.0.13/24 | vEOS | Provisioned | - |
-| dc1_fabric | l2leaf | LEAF1B | 192.168.0.14/24 | vEOS | Provisioned | - |
-| dc1_fabric | l2leaf | LEAF2A | 192.168.0.15/24 | vEOS | Provisioned | - |
-| dc1_fabric | l2leaf | LEAF2B | 192.168.0.16/24 | vEOS | Provisioned | - |
-| dc1_fabric | l3spine | SPINE1 | 192.168.0.11/24 | vEOS | Provisioned | - |
-| dc1_fabric | l3spine | SPINE2 | 192.168.0.12/24 | vEOS | Provisioned | - |
+| dc1_fabric | l2leaf | LEAF1A | 192.168.0.13/24 | 7050SDX4 | Provisioned | - |
+| dc1_fabric | l2leaf | LEAF1B | 192.168.0.14/24 | 7050SDX4 | Provisioned | - |
+| dc1_fabric | l2leaf | LEAF2A | 192.168.0.15/24 | 7050SDX4 | Provisioned | - |
+| dc1_fabric | l2leaf | LEAF2B | 192.168.0.16/24 | 7050SDX4 | Provisioned | - |
+| dc1_fabric | l3spine | SPINE1 | 192.168.0.11/24 | 7280R3 | Provisioned | - |
+| dc1_fabric | l3spine | SPINE2 | 192.168.0.12/24 | 7280R3 | Provisioned | - |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 

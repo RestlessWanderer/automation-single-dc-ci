@@ -66,7 +66,7 @@ management_interfaces:
   ip_address: 192.168.0.14/24
   type: oob
 metadata:
-  platform: vEOS
+  platform: 7050SDX4
   fabric_name: dc1_fabric
 mlag_configuration:
   domain_id: DC1-LEAF1
@@ -121,10 +121,10 @@ vlans:
   - MLAG
   tenant: system
 - id: 110
-  name: DC1_IDF1_DATA
+  name: DC1_DATA_110
   tenant: DC1
 - id: 120
-  name: DC1_IDF1_VOICE
+  name: DC1_DATA_120
   tenant: DC1
 vrfs:
 - name: default

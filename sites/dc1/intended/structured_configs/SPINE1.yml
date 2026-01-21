@@ -92,15 +92,15 @@ management_interfaces:
   ip_address: 192.168.0.11/24
   type: oob
 metadata:
-  platform: vEOS
+  platform: 7280R3
   fabric_name: dc1_fabric
 mlag_configuration:
   domain_id: DC1-SPINES
   local_interface: Vlan4094
   peer_address: 10.253.1.1
   peer_link: Port-Channel971
-  reload_delay_mlag: '300'
-  reload_delay_non_mlag: '330'
+  reload_delay_mlag: '900'
+  reload_delay_non_mlag: '1020'
 port_channel_interfaces:
 - name: Port-Channel971
   description: MLAG_SPINE2_Port-Channel971
@@ -148,6 +148,8 @@ spanning_tree:
   - id: '0'
     priority: 4096
   no_spanning_tree_vlan: 4093-4094
+tcam_profile:
+  system: vxlan-routing
 transceiver_qsfp_default_mode_4x10: true
 vlan_interfaces:
 - name: Vlan4093
@@ -164,14 +166,14 @@ vlan_interfaces:
   mtu: 1500
   no_autostate: true
 - name: Vlan110
-  description: DC1_IDF1_DATA
+  description: DC1_DATA_110
   shutdown: false
   ip_address: 10.1.10.2/24
   ip_virtual_router_addresses:
   - 10.1.10.1
   tenant: DC1
 - name: Vlan120
-  description: DC1_IDF1_VOICE
+  description: DC1_DATA_120
   shutdown: false
   ip_address: 10.1.20.2/24
   ip_virtual_router_addresses:
@@ -194,10 +196,10 @@ vlans:
   - MLAG
   tenant: system
 - id: 110
-  name: DC1_IDF1_DATA
+  name: DC1_DATA_110
   tenant: DC1
 - id: 120
-  name: DC1_IDF1_VOICE
+  name: DC1_DATA_120
   tenant: DC1
 vrfs:
 - name: default

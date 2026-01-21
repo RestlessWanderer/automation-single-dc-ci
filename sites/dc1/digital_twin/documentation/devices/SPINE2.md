@@ -222,8 +222,8 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 110 | DC1_IDF1_DATA | - |
-| 120 | DC1_IDF1_VOICE | - |
+| 110 | DC1_DATA_110 | - |
+| 120 | DC1_DATA_120 | - |
 | 4093 | MLAG_L3 | MLAG |
 | 4094 | MLAG | MLAG |
 
@@ -232,10 +232,10 @@ vlan internal order ascending range 1006 1199
 ```eos
 !
 vlan 110
-   name DC1_IDF1_DATA
+   name DC1_DATA_110
 !
 vlan 120
-   name DC1_IDF1_VOICE
+   name DC1_DATA_120
 !
 vlan 4093
    name MLAG_L3
@@ -373,8 +373,8 @@ interface Loopback0
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
-| Vlan110 | DC1_IDF1_DATA | default | - | False |
-| Vlan120 | DC1_IDF1_VOICE | default | - | False |
+| Vlan110 | DC1_DATA_110 | default | - | False |
+| Vlan120 | DC1_DATA_120 | default | - | False |
 | Vlan4093 | MLAG_L3 | default | 1500 | False |
 | Vlan4094 | MLAG | default | 1500 | False |
 
@@ -392,13 +392,13 @@ interface Loopback0
 ```eos
 !
 interface Vlan110
-   description DC1_IDF1_DATA
+   description DC1_DATA_110
    no shutdown
    ip address 10.1.10.3/24
    ip virtual-router address 10.1.10.1
 !
 interface Vlan120
-   description DC1_IDF1_VOICE
+   description DC1_DATA_120
    no shutdown
    ip address 10.1.20.3/24
    ip virtual-router address 10.1.20.1
