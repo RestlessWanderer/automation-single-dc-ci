@@ -33,6 +33,7 @@ jobs:
 
       - name: Commit Changes
         run: |
+          git config --global --add safe.directory /__w/automation-single-dc-ci/automation-single-dc-ci
           git add .
           git commit -m "Build Configs with AVD"
           git push origin ${{ github.head_ref }}
