@@ -1,6 +1,17 @@
 aaa_root:
   disabled: true
 config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - apiserver.cv-staging.corp.arista.io:443
+  cvauth:
+    method: token-secure
+    token_file: /tmp/cv-onboarding-token
+  cvsourceintf: Management1
+  cvvrf: MGMT
+  disable_aaa: true
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
 enable_password:
   disabled: true
 ethernet_interfaces:
@@ -65,10 +76,10 @@ ip_routing: true
 ip_virtual_router_mac_address: 00:1c:73:00:dc:01
 is_deployed: true
 local_users:
-- name: cvpadmin
+- name: admin
   privilege: 15
   role: network-admin
-  sha512_password: $6$WYXZ5qKdk8EUGFoI$jy2rDatFjRGDZ3snPO.tIQYzqEbT1TPCfSZQyvIiQ.H.uMYru9Ra3YOWmJCBBGKQuWPWuiGqfh/QOOQlRxRR41
+  sha512_password: $6$WIJu6JlXvlQ.u3Ft$1.drgTLjST0D2rgKJsR9BbsY2NhH2HD868nr0Mc1wXXTGonYKodtPXG/Lwei1f5g3kWPMEfg7QjVtZctOJ.2w/
 - name: service
   privilege: 15
   role: network-admin
@@ -83,17 +94,25 @@ loopback_interfaces:
 management_api_http:
   enable_https: true
   enable_vrfs:
-  - name: default
+  - name: MGMT
 management_interfaces:
 - name: Management1
   description: OOB_MANAGEMENT
   shutdown: false
-  vrf: default
+  vrf: MGMT
   ip_address: 192.168.0.11/24
   type: oob
 metadata:
   platform: 7280R3
   fabric_name: dc1_fabric
+  cv_tags:
+    device_tags:
+    - name: topology_hint_fabric
+      value: dc1_fabric
+    - name: topology_hint_type
+      value: spine
+    - name: topology_hint_rack
+      value: DC1-SPINES
 mlag_configuration:
   domain_id: DC1-SPINES
   local_interface: Vlan4094
@@ -202,5 +221,5 @@ vlans:
   name: DC1_DATA_120
   tenant: DC1
 vrfs:
-- name: default
+- name: MGMT
   ip_routing: false

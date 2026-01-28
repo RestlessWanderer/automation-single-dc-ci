@@ -1,6 +1,6 @@
 ---
-ansible_user: cvpadmin
-ansible_password: cvp123!
+ansible_user: admin
+ansible_password: admin
 ansible_network_os: arista.eos.eos
 # Configure privilege escalation
 ansible_become: true
@@ -15,11 +15,10 @@ avd_data_validation_mode: error
 
 # Local Users
 local_users:
-  - name: cvpadmin
+  - name: admin
     privilege: 15
     role: network-admin
-    # cvp123!
-    sha512_password: "$6$WYXZ5qKdk8EUGFoI$jy2rDatFjRGDZ3snPO.tIQYzqEbT1TPCfSZQyvIiQ.H.uMYru9Ra3YOWmJCBBGKQuWPWuiGqfh/QOOQlRxRR41"
+    sha512_password: "$6$WIJu6JlXvlQ.u3Ft$1.drgTLjST0D2rgKJsR9BbsY2NhH2HD868nr0Mc1wXXTGonYKodtPXG/Lwei1f5g3kWPMEfg7QjVtZctOJ.2w/"
   - name: service # used for auto_config_cvp
     privilege: 15
     role: network-admin
@@ -35,7 +34,7 @@ aaa_authorization:
 # out of ACT environment.
 # mgmt_gateway: 192.168.0.1
 mgmt_interface: Management1
-mgmt_interface_vrf: default
+# mgmt_interface_vrf: default
 
 fabric_ip_addressing:
   mlag:
@@ -43,12 +42,15 @@ fabric_ip_addressing:
 
 p2p_uplinks_mtu: 1500
 
-daemon_terminattr:
-  cvaddrs: # For single cluster
-    - 192.168.0.5:9910
-  cvauth:
-    method: token
-    token_file: "/tmp/token"
-  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
-  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
-  disable_aaa: true
+cv_settings:
+  cvaas:
+    enabled: true
+    clusters:
+      - name: cvaas
+        region: "staging"
+  terminattr:
+    ingestexclude: "/Sysdb/cell/1/agent,/Sysdb/cell/2/agent"
+    disable_aaa: true
+
+generate_cv_tags:
+  topology_hints: true

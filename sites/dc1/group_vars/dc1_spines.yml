@@ -1,6 +1,8 @@
 ---
 type: l3spine
 
+cv_tags_topology_type: spine
+
 l3spine:
   defaults:
     platform: "7280R3"

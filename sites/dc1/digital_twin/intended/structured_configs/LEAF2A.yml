@@ -1,6 +1,17 @@
 aaa_root:
   disabled: true
 config_end: true
+daemon_terminattr:
+  cvaddrs:
+  - apiserver.cv-staging.corp.arista.io:443
+  cvauth:
+    method: token-secure
+    token_file: /tmp/cv-onboarding-token
+  cvsourceintf: Management1
+  cvvrf: MGMT
+  disable_aaa: true
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
 enable_password:
   disabled: true
 ethernet_interfaces:
@@ -45,10 +56,10 @@ ip_igmp_snooping:
   globally_enabled: true
 is_deployed: true
 local_users:
-- name: cvpadmin
+- name: admin
   privilege: 15
   role: network-admin
-  sha512_password: $6$WYXZ5qKdk8EUGFoI$jy2rDatFjRGDZ3snPO.tIQYzqEbT1TPCfSZQyvIiQ.H.uMYru9Ra3YOWmJCBBGKQuWPWuiGqfh/QOOQlRxRR41
+  sha512_password: $6$WIJu6JlXvlQ.u3Ft$1.drgTLjST0D2rgKJsR9BbsY2NhH2HD868nr0Mc1wXXTGonYKodtPXG/Lwei1f5g3kWPMEfg7QjVtZctOJ.2w/
 - name: service
   privilege: 15
   role: network-admin
@@ -57,24 +68,32 @@ local_users:
 management_api_http:
   enable_https: true
   enable_vrfs:
-  - name: default
+  - name: MGMT
 management_interfaces:
 - name: Management1
   description: OOB_MANAGEMENT
   shutdown: false
-  vrf: default
+  vrf: MGMT
   ip_address: 192.168.0.15/24
   type: oob
 metadata:
   platform: vEOS-lab
   fabric_name: dc1_fabric
+  cv_tags:
+    device_tags:
+    - name: topology_hint_fabric
+      value: dc1_fabric
+    - name: topology_hint_type
+      value: leaf
+    - name: topology_hint_rack
+      value: DC1-LEAF2
   digital_twin:
     environment: act
     node_type: veos
     ip_addr: 192.168.0.15/24
-    version: 4.33.1.1F
-    username: admin
-    password: admin
+    version: 4.33.4M
+    username: dtadmin
+    password: arista123!
 mlag_configuration:
   domain_id: DC1-LEAF2
   local_interface: Vlan4094
@@ -134,5 +153,5 @@ vlans:
   name: DC1_DATA_120
   tenant: DC1
 vrfs:
-- name: default
+- name: MGMT
   ip_routing: false

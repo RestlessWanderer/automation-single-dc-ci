@@ -2,30 +2,30 @@ nodes:
 - LEAF1A:
     node_type: veos
     ip_addr: 192.168.0.13/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 - LEAF1B:
     node_type: veos
     ip_addr: 192.168.0.14/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 - LEAF2A:
     node_type: veos
     ip_addr: 192.168.0.15/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 - LEAF2B:
     node_type: veos
     ip_addr: 192.168.0.16/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 - SPINE1:
     node_type: veos
     ip_addr: 192.168.0.11/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 - SPINE2:
     node_type: veos
     ip_addr: 192.168.0.12/24
-    version: 4.33.1.1F
+    version: 4.33.4M
 veos:
-  username: admin
-  password: admin
+  username: dtadmin
+  password: arista123!
 links:
 - connection:
   - LEAF1A:Ethernet49
