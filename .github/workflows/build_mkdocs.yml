@@ -1,37 +1,115 @@
----
-
-name: Build MKDocs Site
+name: Auto-Discover AVD Sites and Deploy
 
 on:
-  workflow_dispatch:
-  repository_dispatch:
-    types: [mkdocs]
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+  push:
+    paths:
+      - '**/documentation/**'
+      - '**/structured_config/**'
+      - 'mkdocs.yml'
 
 jobs:
-  build_mkdocs:
-    name: Build MKDocs Site
-    runs-on: ubuntu-22.04
+  update-and-deploy:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code ✅
+      - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: move AVD docs ✂
-        run: |
-          cp -r sites/dc1/documentation/* docs/
-          cp sites/dc1/anta/reports/anta_report.md docs/
-          cp sites/dc1/anta/reports/anta_report.md docs/index.md
-
-      - name: Setup Python3 🐍
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.x'
 
-      - name: Build MkDocs Site
+      - name: Install Dependencies
+        run: pip install mkdocs-material PyYAML
+
+      - name: Auto-Discover and Sync
         run: |
-          pip install mkdocs-material
-          mkdocs gh-deploy --remote-branch documentation
+          # Find every directory that contains a structured_config folder
+          # and sync its AVD docs to the docs/ directory
+          for dir in $(find . -maxdepth 2 -type d -name "structured_config" | cut -d'/' -f2); do
+            echo "Syncing site: $dir"
+            mkdir -p "docs/$dir/devices"
+            cp "$dir/documentation/fabric"/*.md "docs/$dir/" 2>/dev/null || true
+            cp "$dir/documentation/devices"/*.md "docs/$dir/devices/" 2>/dev/null || true
+          done
+
+      - name: Rebuild Dynamic Multi-Site Nav
+        shell: python
+        run: |
+          import yaml
+          import os
+
+          mkdocs_file = 'mkdocs.yml'
+          if not os.path.exists(mkdocs_file):
+              exit(0)
+
+          with open(mkdocs_file, 'r') as f:
+              config = yaml.safe_load(f)
+
+          # Initialize navigation with Home/Index if present
+          full_nav = [item for item in config.get('nav', []) if 'Home' in item or 'index.md' in str(item)]
+          
+          # Auto-discover sites based on presence of synced docs
+          # We check the 'docs' folder which was populated in the previous step
+          if os.path.exists('docs'):
+              sites = sorted([d for d in os.listdir('docs') if os.path.isdir(os.path.join('docs', d)) and d != 'devices'])
+              
+              for site in sites:
+                  site_docs_path = f'docs/{site}/devices'
+                  struct_dir = f'{site}/structured_config'
+                  
+                  if not os.path.exists(site_docs_path):
+                      continue
+
+                  type_buckets = {}
+                  # Sort files to ensure Leaf1, Leaf2 order
+                  for file in sorted(os.listdir(site_docs_path)):
+                      if file.endswith('.md'):
+                          hostname = file.replace('.md', '')
+                          struct_path = os.path.join(struct_dir, f'{hostname}.yml')
+                          
+                          node_type = 'Other'
+                          if os.path.exists(struct_path):
+                              with open(struct_path, 'r') as f:
+                                  data = yaml.safe_load(f)
+                                  node_type = data.get('node_type', 'Other')
+
+                          if node_type not in type_buckets:
+                              type_buckets[node_type] = []
+                          type_buckets[node_type].append({hostname: f'{site}/devices/{file}'})
+
+                  # Construct the nested menu for this site
+                  site_nav = []
+                  
+                  # Link the main Fabric Doc if it exists
+                  fabric_doc = f'{site}/fabric-documentation.md'
+                  if os.path.exists(f'docs/{fabric_doc}'):
+                      site_nav.append({'Fabric Overview': fabric_doc})
+                  
+                  # Add the Tiered Device groups
+                  device_tree = []
+                  for n_type in sorted(type_buckets.keys()):
+                      device_tree.append({n_type.upper(): type_buckets[n_type]})
+                  
+                  if device_tree:
+                      site_nav.append({'Devices': device_tree})
+                  
+                  # Use the folder name as the Menu Label (replacing underscores for readability)
+                  full_nav.append({site.replace('_', ' '): site_nav})
+
+          config['nav'] = full_nav
+
+          with open(mkdocs_file, 'w') as f:
+              yaml.dump(config, f, default_flow_style=False, sort_keys=False)
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/ mkdocs.yml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-discovered AVD sites update" && git push)
+
+      - name: Build and Deploy
+        run: mkdocs gh-deploy --force

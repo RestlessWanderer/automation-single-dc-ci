@@ -1,8 +1,6 @@
 ---
 type: l2leaf
 
-cv_tags_topology_type: leaf
-
 l2leaf:
   defaults:
     platform: "7050SDX4"
