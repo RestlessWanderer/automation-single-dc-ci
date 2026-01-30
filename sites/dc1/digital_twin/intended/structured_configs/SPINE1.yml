@@ -3,10 +3,10 @@ aaa_root:
 config_end: true
 daemon_terminattr:
   cvaddrs:
-  - apiserver.cv-staging.corp.arista.io:443
+  - 192.168.0.5:9910
   cvauth:
-    method: token-secure
-    token_file: /tmp/cv-onboarding-token
+    method: token
+    token_file: /tmp/token
   cvsourceintf: Management1
   cvvrf: MGMT
   disable_aaa: true
